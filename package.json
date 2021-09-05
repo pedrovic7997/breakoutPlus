@@ -4,11 +4,8 @@
   "description": "Jogo desenvolvido em TypeScript para matéria de Linguagem de Programação",
   "main": "index.js",
   "scripts": {
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch",
-    "build": "npm run build:types && npm run build:js",
-    "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "babel src --out-dir lib --extensions \".ts\" --source-maps inline"
+    "clean": "shx rm -rf _bundles lib",
+    "build": "npm run clean && tsc && webpack"
   },
   "repository": {
     "type": "git",
@@ -21,12 +18,10 @@
     "url": "https://github.com/pedrovic7997/breakoutPlus/issues"
   },
   "homepage": "https://github.com/pedrovic7997/breakoutPlus#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.14.8",
-    "@babel/core": "^7.15.0",
-    "@babel/plugin-proposal-class-properties": "^7.14.5",
-    "@babel/preset-env": "^7.15.0",
-    "@babel/preset-typescript": "^7.15.0",
-    "typescript": "^4.4.2"
+  "dependencies": {
+    "awesome-typescript-loader": "^3.0.4-rc.2",
+    "shx": "^0.2.2",
+    "typescript": "^2.1.6",
+    "webpack": "^2.2.1"
   }
 }

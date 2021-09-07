@@ -14,6 +14,10 @@ export class WelcomeScene extends Phaser.Scene {
         var hintText: string = "Click to start";
         this.hint = this.add.text(300, 350, hintText,
             { font: '24px Arial Bold', color: '#FBFBAC' });
+        const hiscoreValue = localStorage.getItem("Highscore");
+        const hiscoreText: string = `Your highest score is ${hiscoreValue ?? 0}`;
+        this.add.text(130, 450, hiscoreText,
+            { font: '48px Arial Bold', color: '#FBFBAC' });
         this.input.on('pointerdown', function (/*pointer*/) {
             this.scene.start("GameScene");
         }, this);

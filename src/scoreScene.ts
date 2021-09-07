@@ -8,7 +8,7 @@ export class ScoreScene extends Phaser.Scene {
             key: "ScoreScene"
         });
     }
-    init(params: any): void {
+    init(params: {starsCaught: number}): void {
         this.score = params.starsCaught;
     }
     create(): void {
@@ -21,5 +21,6 @@ export class ScoreScene extends Phaser.Scene {
         this.input.on('pointerdown', function (/*pointer*/) {
             this.scene.start("WelcomeScene");
         }, this);
+        localStorage.setItem("Highscore", String(this.score));
     }
 };

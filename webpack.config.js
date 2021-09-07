@@ -34,32 +34,37 @@ var config = {
   // Activate source maps for the bundles in order to preserve the original
   // source when the user debugs the application
   devtool: 'source-map',
-  plugins: [
-    // Apply minification only on the second bundle by
-    // using a RegEx on the name, which must end with `.min.js`
-    // NB: Remember to activate sourceMaps in UglifyJsPlugin
-    // since they are disabled by default!
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      sourceMap: true,
-      include: /\.min\.js$/,
-    })
-  ],
+  // plugins: [
+  //   // Apply minification only on the second bundle by
+  //   // using a RegEx on the name, which must end with `.min.js`
+  //   // NB: Remember to activate sourceMaps in UglifyJsPlugin
+  //   // since they are disabled by default!
+  //   new webpack.optimize.UglifyJsPlugin({
+  //     minimize: true,
+  //     sourceMap: true,
+  //     include: /\.min\.js$/,
+  //   })
+  // ],
   module: {
     // Webpack doesn't understand TypeScript files and a loader is needed.
     // `node_modules` folder is excluded in order to prevent problems with
     // the library dependencies, as well as `__tests__` folders that
     // contain the tests for the library
-    loaders: [{
+    // loaders: [{
+    //   test: /\.tsx?$/,
+    //   loader: 'ts-loader',
+    //   exclude: /node_modules/,
+    //   query: {
+    //     // we don't want any declaration file in the bundles
+    //     // folder since it wouldn't be of any use ans the source
+    //     // map already include everything for debugging
+    //     declaration: false,
+    //   }
+    // }]
+    rules: [{
       test: /\.tsx?$/,
-      loader: 'awesome-typescript-loader',
-      exclude: /node_modules/,
-      query: {
-        // we don't want any declaration file in the bundles
-        // folder since it wouldn't be of any use ans the source
-        // map already include everything for debugging
-        declaration: false,
-      }
+      loader: 'ts-loader',
+      exclude: /node_modules/
     }]
   }
 }

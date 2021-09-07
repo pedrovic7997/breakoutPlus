@@ -11,12 +11,14 @@ export class GameScene extends Phaser.Scene {
         super({
             key: "GameScene"
         });
+        console.log("cu");
     }
     init(params): void {
         this.delta = 1000;
         this.lastStarTime = 0;
         this.starsCaught = 0;
         this.starsFallen = 0;
+        
     }
     preload(): void {
         this.load.setBaseURL(
@@ -24,7 +26,7 @@ export class GameScene extends Phaser.Scene {
             "starfall-phaser3-typescript/master/"
         );
         this.load.image("star", "assets/star.png");
-        this.load.image("sand", "assets/sand.png");
+        this.load.image("sand", "http://d3ugyf2ht6aenh.cloudfront.net/stores/963/751/products/areia_02_150x200h1-cd4184d2702faa4b0a15532063214270-640-0.jpg");
     }
 
     create(): void {
@@ -36,7 +38,7 @@ export class GameScene extends Phaser.Scene {
             new Phaser.Geom.Line(20, 580, 820, 580));
         this.sand.refresh();
         this.info = this.add.text(10, 10, '',
-            { font: '24px CommicSans Bold', color: '#FBFBAC' }
+            { font: '24px Arial Bold', color: '#FBFBAC' }
         );
     }
     update(time): void {
@@ -46,41 +48,45 @@ export class GameScene extends Phaser.Scene {
             if (this.delta > 500) {
                 this.delta -= 20;
             }
-            // this.emitStar();
+            this.emitStar();
         }
         this.info.text =
             this.starsCaught + " caught - " +
             this.starsFallen + " fallen (max 3)";
     }
-    // private onClick(star: Phaser.Physics.Arcade.Image): () => void {
-    //     return function () {
-    //         star.setTint(0x00ff00);
-    //         star.setVelocity(0, 0);
-    //         this.starsCaught += 1;
-    //         this.time.delayedCall(100, function (star) {
-    //             star.destroy();
-    //         }, [star], this);
-    //     }
-    // }
-    // private onFall(star: Phaser.Physics.Arcade.Image): () => void {
-    //     return function () {
-    //         star.setTint(0xff0000);
-    //         this.starsFallen += 1;
-    //         this.time.delayedCall(100, function (star) {
-    //             star.destroy();
-    //         }, [star], this);
-    //     }
-    // }
-    // private emitStar(): void {
-    //     var star: Phaser.Physics.Arcade.Image;
-    //     var x = Phaser.Math.Between(25, 775);
-    //     var y = 26;
-    //     star = this.physics.add.image(x, y, "star");
-    //     star.setDisplaySize(50, 50);
-    //     star.setVelocity(0, 200);
-    //     star.setInteractive();
-    //     star.on('pointerdown', this.onClick(star), this);
-    //     this.physics.add.collider(star, this.sand,
-    //         this.onFall(star), null, this);
-    // }
+    private onClick(star: Phaser.Physics.Arcade.Image): () => void {
+        return function () {
+            star.setTint(0x00ff00);
+            star.setVelocity(0, 0);
+            this.starsCaught += 1;
+            this.time.delayedCall(100, function (star) {
+                star.destroy();
+            }, [star], this);
+        }
+    }
+    private onFall(star: Phaser.Physics.Arcade.Image): () => void {
+        return function () {
+            star.setTint(0xff0000);
+            this.starsFallen += 1;
+            this.time.delayedCall(100, function (star) {
+                star.destroy();
+                if (this.starsFallen > 2) {
+                    this.scene.start("ScoreScene", 
+                        { starsCaught: this.starsCaught });
+                }
+            }, [star], this);
+        }
+    }
+    private emitStar(): void {
+        var star: Phaser.Physics.Arcade.Image;
+        var x = Phaser.Math.Between(25, 775);
+        var y = 26;
+        star = this.physics.add.image(x, y, "star");
+        star.setDisplaySize(50, 50);
+        star.setVelocity(0, 200);
+        star.setInteractive();
+        star.on('pointerdown', this.onClick(star), this);
+        this.physics.add.collider(star, this.sand,
+            this.onFall(star), null, this);
+    }
 }

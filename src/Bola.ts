@@ -1,5 +1,7 @@
-export class Bola {
+import "phaser";
+// export class Bola extends Phaser.Physics.Arcade.Image {
+//   constructor(private size) {
+//     super();
+//   }
+// }
 
-    constructor(public width: number, public height: number, public color: string) {
-    }
-}

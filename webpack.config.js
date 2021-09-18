@@ -7,6 +7,7 @@ var PATHS = {
 }
 
 var config = {
+  mode: 'development',
   // These are the entry point of our library. We tell webpack to use
   // the name we assign later, when creating the bundle. We also use
   // the name to filter the second entry point for applying code
@@ -29,7 +30,7 @@ var config = {
   // Add resolve for `tsx` and `ts` files, otherwise Webpack would
   // only look for common JavaScript file extension (.js)
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.js']
   },
   // Activate source maps for the bundles in order to preserve the original
   // source when the user debugs the application

@@ -2,6 +2,7 @@ import "phaser"
 import { GameScene } from "./gameScene";
 import { ScoreScene } from "./scoreScene";
 import { WelcomeScene } from "./welcomeScene";
+
 export const config: Phaser.Types.Core.GameConfig = {
     title: "Starfall",
     width: 800,

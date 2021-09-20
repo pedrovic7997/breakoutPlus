@@ -1,59 +1,81 @@
-import "phaser"
+import "phaser";
 export class GameScene extends Phaser.Scene {
-    delta: number;
-    lastStarTime: number;
-    starsCaught: number;
-    starsFallen: number;
-    sand: Phaser.Physics.Arcade.StaticGroup;
-    bolota: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-    info: Phaser.GameObjects.Text;
+  ball: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
+  info: Phaser.GameObjects.Text;
+  paddle: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
 
-    constructor() {
-        super({
-            key: "GameScene"
-        });
+  cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+
+  hitSprite: Phaser.Sound.BaseSound;
+
+  constructor() {
+    super({
+      key: "GameScene"
+    });
+  }
+  init(params): void {
+  }
+  preload(): void {
+    this.load.image("ball", "assets/image/Shiny_steel_ball.png");
+    this.load.svg("paddle", "assets/image/paddle.svg");
+
+    this.load.audio('hit', "assets/audio/hit1 - ball & paddle.mp3");
+  }
+
+  create(): void {
+    this.physics.world.setBoundsCollision(true, true, true, true);
+
+    this.ball = this.physics.add.image(400, 300, 'ball')
+      .setCollideWorldBounds(true)
+      .setBounce(1);
+    this.ball.body.bounce.setTo(1, 1);
+    this.ball.setScale(0.1);
+    this.ball.setVelocity(0, 150);
+
+    this.paddle = this.physics.add.image(400, 500, 'paddle')
+      .setCollideWorldBounds(true);
+    this.paddle.body.setMaxVelocityX(1000);
+    this.paddle.body.setAccelerationY(0);
+    this.paddle.body.setMaxVelocityY(0);
+
+    this.cursors = this.input.keyboard.createCursorKeys();
+
+    // SOUND
+
+    this.hitSprite = this.sound.add('hit');
+    this.physics.add.existing(this.ball,false);
+
+  }
+  update(time: number): void {
+
+    const PADDLE_ACCELERATION = 10000;
+
+    if (this.cursors.right.isDown) {
+      // this.paddle.setVelocityX(PADDLE_VELOCITY);
+      this.paddle.body.setAccelerationX(PADDLE_ACCELERATION);
+    } else if (this.cursors.left.isDown) {
+      // this.paddle.setVelocityX(PADDLE_VELOCITY * (-1));
+      this.paddle.body.setAccelerationX(-PADDLE_ACCELERATION);
+    } else {
+      this.paddle.body.setVelocityX(0);
+      this.paddle.body.setAccelerationX(0);
     }
-    init(params): void {
-        this.delta = 1000;
-        this.lastStarTime = 0;
-        this.starsCaught = 0;
-        this.starsFallen = 0;
 
-    }
-    preload(): void {
-        // this.load.setBaseURL(
-        //     "https://raw.githubusercontent.com/mariyadavydova/" +
-        //     "starfall-phaser3-typescript/master/"
-        // );
-        this.load.image("bolota", "assets/image/steel_ball.jfif");
-        // this.load.image("sand", "http://d3ugyf2ht6aenh.cloudfront.net/stores/963/751/products/areia_02_150x200h1-cd4184d2702faa4b0a15532063214270-640-0.jpg");
-    }
+    // TODO: PQ A PORRA DA VELOCIDADE DA BOLA REFLETE NO Y TB ?????????
+    this.physics.collide(this.ball, this.paddle, (ball, paddle) => {
+      this.hitSprite.play();
+        if (ball.body.bottom >= paddle.body.top){
+          this.ball.body.setVelocityY(-150);
+        }
+        this.ball.body.setVelocityX(ball.body.velocity.x + (ball.body.center.x - paddle.body.center.x)*1.5);
+    });
 
-    create(): void {
-        this.physics.world.setBoundsCollision(true, true, true, true);
 
-        this.bolota = this.physics.add.image(400, 300, 'bolota').setCollideWorldBounds(true).setBounce(1);
-        this.bolota.body.bounce.setTo(1, 1);
-        this.bolota.setScale(0.5);
-        this.bolota.setVelocity(2000, 3057);
 
-        // this.sand = this.physics.add.staticGroup({
-        //     key: 'sand',
-        //     frameQuantity: 20
-        // });
-        // Phaser.Actions.PlaceOnLine(this.sand.getChildren(),
-        //     new Phaser.Geom.Line(20, 580, 820, 580));
-        // this.sand.refresh();
-        // this.info = this.add.text(10, 10, '',
-        //     { font: '24px Arial Bold', color: '#FBFBAC' }
-        // );
-    }
-    update(time: number): void {
+    // this.ball.body.bounce.set(1, 1);
 
-      // this.bolota.body.bounce.set(1, 1);
-
-        // if (this.bolota.body.) {
-        //   this.bolota.setRandomPosition();
-        // }
-    }
+    // if (this.ball.body.) {
+    //   this.ball.setRandomPosition();
+    // }
+  }
 }

@@ -1,18 +1,18 @@
 import "phaser";
-export class ScoreScene extends Phaser.Scene {
+export class YouWin extends Phaser.Scene {
     score: number;
     result: Phaser.GameObjects.Text;
     hint: Phaser.GameObjects.Text;
     constructor() {
         super({
-            key: "ScoreScene"
+            key: "YouWin"
         });
     }
     init(params: {starsCaught: number}): void {
         this.score = params.starsCaught;
     }
     create(): void {
-        var resultText: string = 'Your score is ' + this.score + '!';
+        var resultText: string = 'You WIN!';
         this.result = this.add.text(200, 250, resultText,
             { font: '48px Arial Bold', color: '#FBFBAC' });
         var hintText: string = "Click to restart";
@@ -21,7 +21,7 @@ export class ScoreScene extends Phaser.Scene {
         this.input.on('pointerdown', function (/*pointer*/) {
             this.scene.start("WelcomeScene");
         }, this);
-        localStorage.setItem("Highscore", String(this.score));
+        // localStorage.setItem("Highscore", String(this.score));
     }
     resetScore(): void{
         this.score = 0;

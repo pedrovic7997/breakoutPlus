@@ -8,7 +8,7 @@ export class WelcomeScene extends Phaser.Scene {
         });
     }
     create(): void {
-        var titleText: string = "Starfall";
+        var titleText: string = "Breakout plus";
         this.title = this.add.text(150, 200, titleText,
             { font: '128px Arial Bold', color: '#FBFBAC' });
         var hintText: string = "Click to start";

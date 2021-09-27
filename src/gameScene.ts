@@ -1,10 +1,12 @@
 import "phaser";
 import { GameObjects } from "phaser";
+import { ScoreScene } from "./scoreScene";
 export class GameScene extends Phaser.Scene {
     ball: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
     info: Phaser.GameObjects.Text;
     paddle: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-    bricks = new Array<Phaser.GameObjects.Graphics>(6 * 4);
+    bricks: Phaser.Types.GameObjects.Group.GroupConfig;
+    lives: number;
 
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
@@ -27,12 +29,14 @@ export class GameScene extends Phaser.Scene {
     }
 
     create(): void {
+        this.lives = 3;
+        //ScoreScene.resetScore();
         this.physics.world.setBoundsCollision(true, true, true, true);
 
         this.ball = this.physics.add.image(400, 300, 'ball')
             .setCollideWorldBounds(true)
             .setBounce(1);
-        this.ball.setScale(0.05);
+        this.ball.setScale(0.03);
         this.ball.setVelocity(0, 150);
         this.ball.setMaxVelocity(697);
 
@@ -46,19 +50,18 @@ export class GameScene extends Phaser.Scene {
             key: 'bricks',
             frame: [ 0, 1, 2, 3 ],
             frameQuantity: 6,
-            bounce: 1,
-        } as Phaser.Types.GameObjects.Group.GroupConfig);
-
-        // for (const brick of group.getChildren()) {
-        //     brick = this.physics.a
-        // }
+            bounceX: 1,
+            bounceY: 1,
+            immovable: true,
+            setScale: { x: 0.5,y : 1},
+        } as Phaser.Types.GameObjects.Group.GroupConfig) ;
 
         Phaser.Actions.GridAlign(group.getChildren(), {
             width: 6,
             height: 4,
-            cellWidth: 120,
+            cellWidth: 60,
             cellHeight: 30,
-            x: 60,
+            x: 200,
             y: 60
         });
 
@@ -86,18 +89,17 @@ export class GameScene extends Phaser.Scene {
 
         this.physics.add.collider(this.ball, group, (ball,brick) => {
             brick.destroy();
-
-            if(group.countActive() == 0){
+            if(group.countActive() === 0){
                 this.ball.setVelocity(0,0);
-                this.scene.start("ScoreScene");
+                // Fazer outra scene
+                this.scene.start("YouWin");
             }
-            console.log('Bateu');
         })
 
         this.physics.add.collider(this.ball, this.paddle, (ball, paddle) => {
             this.hitSprite.play();
 
-            this.ball.setVelocityX(ball.body.velocity.x + (ball.body.center.x - paddle.body.center.x) * 1.5);
+            this.ball.setVelocityX(ball.body.velocity.x + (ball.body.center.x - paddle.body.center.x) * 5);
         });
 
         // SOUND
@@ -117,5 +119,24 @@ export class GameScene extends Phaser.Scene {
             this.paddle.body.setVelocityX(0);
             this.paddle.body.setAccelerationX(0);
         }
+        if (this.ball.body.bottom === 600){
+            if (this.lives >= 2) this.lives--;
+            else {
+                // Fazer outra scene
+                this.scene.start("YouLose");
+            }
+            this.resetGame();
+        }
+    }
+    resetGame(): void {
+        this.ball.setVelocity(0,0);
+        this.ball.setPosition(400, 300);
+        this.paddle.setPosition(400, 500);
+        //while(true) {
+            //if (this.cursors.right.isDown || this.cursors.left.isDown) {
+        this.ball.setVelocity(0, 150);
+                //break;
+            //}
+        //}
     }
 }

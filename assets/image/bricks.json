@@ -1,0 +1,115 @@
+{
+  "textures": [
+    {
+      "image": "bricks.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 120,
+        "h": 120
+      },
+      "scale": 1,
+      "frames": [
+        {
+          "filename": "brick_0000",
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 120,
+            "h": 30
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 120,
+            "h": 30
+          },
+          "sourceSize": {
+            "w": 120,
+            "h": 30
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 1
+          }
+        },
+        {
+          "filename": "brick_0015",
+          "frame": {
+            "x": 0,
+            "y": 30,
+            "w": 120,
+            "h": 30
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 120,
+            "h": 30
+          },
+          "sourceSize": {
+            "w": 120,
+            "h": 30
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 1
+          }
+        },
+        {
+          "filename": "brick_0001",
+          "frame": {
+            "x": 0,
+            "y": 60,
+            "w": 120,
+            "h": 30
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 120,
+            "h": 30
+          },
+          "sourceSize": {
+            "w": 120,
+            "h": 30
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 1
+          }
+        },
+        {
+          "filename": "diamond_0014",
+          "frame": {
+            "x": 0,
+            "y": 90,
+            "w": 120,
+            "h": 30
+          },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 120,
+            "h": 30
+          },
+          "sourceSize": {
+            "w": 120,
+            "h": 30
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 1
+          }
+        }
+      ]
+    }
+  ]
+}

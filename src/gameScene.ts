@@ -1,4 +1,5 @@
 import "phaser";
+import { GameObjects } from "phaser";
 export class GameScene extends Phaser.Scene {
     ball: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
     info: Phaser.GameObjects.Text;
@@ -21,6 +22,8 @@ export class GameScene extends Phaser.Scene {
         this.load.svg("paddle", "assets/image/paddle.svg");
 
         this.load.audio('hit', "assets/audio/hit1 - ball & paddle.mp3");
+
+        this.load.atlas('bricks', 'assets/images/bricks.png', 'assets/images/bricks.json');
     }
 
     create(): void {
@@ -35,33 +38,51 @@ export class GameScene extends Phaser.Scene {
 
         this.paddle = this.physics.add.image(400, 500, 'paddle')
           .setCollideWorldBounds(true) // TODO tirar essa colisão, e fazer o paddle aparecer do outro lado
-          .setImmovable();
-        this.paddle.setScale(0.5);
+          .setImmovable()
+          .setScale(0.5);
         this.paddle.body.setMaxVelocityX(1000);
 
-        for (let i = 0; i < this.bricks.length; i++) {
-            let brick = this.bricks[i];
-            brick = this.add.graphics();
+        const group = this.add.group(undefined, {
+            key: 'bricks',
+            frame: [ 0, 1, 2, 3 ],
+            frameQuantity: 6,
 
-            const spaceFromBox = 60;
-            const qtdX = 6;
-            const qtdY = 4;
+        });
 
-            const width = this.game.canvas.width - (spaceFromBox * 2);
-            const height = 30;
+        Phaser.Actions.GridAlign(group.getChildren(), {
+            width: this.game.canvas.width - (2 * 60),
+            height: 4 * 30,
+            cellWidth: 120,
+            cellHeight: 30,
+            x: 60,
+            y: 60
+        });
 
-            const x = i % 6 * width / qtdX + spaceFromBox;
-            const y = spaceFromBox + Math.floor(i / 6) * height;
+        // for (let i = 0; i < this.bricks.length; i++) {
+        //     let brick = this.bricks[i];
+        //     brick = this.add.graphics();
 
-            console.log({ x, y, width: width / qtdX, height });
+        //     const spaceFromBox = 60;
+        //     const qtdX = 6;
+        //     const qtdY = 4;
 
-            brick.fillRoundedRect(x, y, width / qtdX, height, 5).fillStyle(0xff00ff, 1);
-        }
+        //     const width = this.game.canvas.width - (spaceFromBox * 2);
+        //     const height = 30;
+
+        //     const x = i % 6 * width / qtdX + spaceFromBox;
+        //     const y = spaceFromBox + Math.floor(i / 6) * height;
+
+        //     // console.log({ x, y, width: width / qtdX, height });
+
+        //     brick.fillRoundedRect(x, y, width / qtdX, height, 5).fillStyle(0xff00ff, 1);
+        // }
+
+
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.physics.add.collider(this.ball, this.bricks, (ball,brick) => {
             brick.destroy();
-            if
+            // if
         })
         this.physics.add.collider(this.ball, this.paddle, (ball, paddle) => {
             this.hitSprite.play();

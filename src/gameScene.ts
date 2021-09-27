@@ -23,7 +23,7 @@ export class GameScene extends Phaser.Scene {
 
         this.load.audio('hit', "assets/audio/hit1 - ball & paddle.mp3");
 
-        this.load.atlas('bricks', 'assets/images/bricks.png', 'assets/images/bricks.json');
+        this.load.atlas('bricks', 'assets/sprite/bricks-1.png', 'assets/sprite/bricks-1.json');
     }
 
     create(): void {
@@ -42,16 +42,20 @@ export class GameScene extends Phaser.Scene {
           .setScale(0.5);
         this.paddle.body.setMaxVelocityX(1000);
 
-        const group = this.add.group(undefined, {
+        const group = this.physics.add.group({
             key: 'bricks',
             frame: [ 0, 1, 2, 3 ],
             frameQuantity: 6,
+            bounce: 1,
+        } as Phaser.Types.GameObjects.Group.GroupConfig);
 
-        });
+        // for (const brick of group.getChildren()) {
+        //     brick = this.physics.a
+        // }
 
         Phaser.Actions.GridAlign(group.getChildren(), {
-            width: this.game.canvas.width - (2 * 60),
-            height: 4 * 30,
+            width: 6,
+            height: 4,
             cellWidth: 120,
             cellHeight: 30,
             x: 60,
@@ -80,10 +84,16 @@ export class GameScene extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.physics.add.collider(this.ball, this.bricks, (ball,brick) => {
+        this.physics.add.collider(this.ball, group, (ball,brick) => {
             brick.destroy();
-            // if
+
+            if(group.countActive() == 0){
+                this.ball.setVelocity(0,0);
+                this.scene.start("ScoreScene");
+            }
+            console.log('Bateu');
         })
+
         this.physics.add.collider(this.ball, this.paddle, (ball, paddle) => {
             this.hitSprite.play();
 

@@ -12,11 +12,11 @@ export class YouLose extends Phaser.Scene {
         // this.score = params.starsCaught;
     }
     create(): void {
-        var resultText: string = 'You LOSE! Dumbfuck...';
-        this.result = this.add.text(200, 250, resultText,
-            { font: '48px Arial Bold', color: '#FBFBAC' });
+        var resultText: string = 'You LOSE!';
+        this.result = this.add.text(150, 250, resultText,
+            { font: '100px Arial Bold', color: '#FBFBAC' });
         var hintText: string = "Click to restart";
-        this.hint = this.add.text(300, 350, hintText,
+        this.hint = this.add.text(300, 400, hintText,
             { font: '24px Arial Bold', color: '#FBFBAC' });
         this.input.on('pointerdown', function (/*pointer*/) {
             this.scene.start("WelcomeScene");

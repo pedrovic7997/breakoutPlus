@@ -10,7 +10,7 @@ export const config: Phaser.Types.Core.GameConfig = {
     width: 800,
     height: 600,
     parent: "game",
-    scene: [WelcomeScene, GameScene, ScoreScene, YouWin, YouLose],
+    scene: [WelcomeScene, GameScene, YouWin, YouLose],
     physics: {
         default: "arcade",
         arcade: {

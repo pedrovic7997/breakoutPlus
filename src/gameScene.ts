@@ -29,8 +29,15 @@ export class GameScene extends Phaser.Scene {
     }
 
     create(): void {
+
+        
         this.lives = 3;
+        var hpText = "Lives: " + this.lives
+        this.info = this.add.text(710, 570, hpText,
+            { font: '24px Arial Bold', color: '#FBFBAC' });
+        
         //ScoreScene.resetScore();
+
         this.physics.world.setBoundsCollision(true, true, true, true);
 
         this.ball = this.physics.add.image(400, 300, 'ball')
@@ -48,8 +55,8 @@ export class GameScene extends Phaser.Scene {
 
         const group = this.physics.add.group({
             key: 'bricks',
-            frame: [ 0, 1, 2, 3 ],
-            frameQuantity: 6,
+            frame: [ 0, 1, 2, 3, 4 ],
+            frameQuantity: 10,
             bounceX: 1,
             bounceY: 1,
             immovable: true,
@@ -57,11 +64,11 @@ export class GameScene extends Phaser.Scene {
         } as Phaser.Types.GameObjects.Group.GroupConfig) ;
 
         Phaser.Actions.GridAlign(group.getChildren(), {
-            width: 6,
-            height: 4,
+            width: 10,
+            height: 5,
             cellWidth: 60,
             cellHeight: 30,
-            x: 200,
+            x: 100,
             y: 60
         });
 
@@ -120,7 +127,13 @@ export class GameScene extends Phaser.Scene {
             this.paddle.body.setAccelerationX(0);
         }
         if (this.ball.body.bottom === 600){
-            if (this.lives >= 2) this.lives--;
+            if (this.lives >= 2) {
+                this.lives--;
+                var hpText = "Lives: " + this.lives
+                this.info.destroy();
+                this.info = this.add.text(710, 570, hpText,
+                    { font: '24px Arial Bold', color: '#FBFBAC' });
+            }
             else {
                 // Fazer outra scene
                 this.scene.start("YouLose");

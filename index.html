@@ -5,9 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Breakout Plus</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 100%;
+            height: auto;
+            background: #333137;
+            font-family: monospace;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: white;
+            font-size: 24px;
+        }
+        p {
+            color: white;
+            margin-top: 20px;
+        }
+        .container {
+            margin-top: 20px;
+            display: grid;
+            place-items: center center;
+        }
+        #game {
+            width: 800px;
+            height: 600px;
+            box-shadow: 0 0 10px 5px teal;
+        }
+    </style>
 </head>
 <body>
-    <div id="game"></div>
+    <div class="container">
+        <h1>Breakout +</h1>
+        <div id="game"></div>
+        <p>Made with ❤ by weakMeniscus, Handec, rtmonteiro</p>
+    </div>
     <script src="_bundles/my-lib.min.js"></script>
 </body>
 </html>

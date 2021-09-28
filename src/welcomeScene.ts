@@ -18,7 +18,11 @@ export class WelcomeScene extends Phaser.Scene {
         // const hiscoreText: string = `Your highest score is ${hiscoreValue ?? 0}`;
         // this.add.text(130, 450, hiscoreText,
         //     { font: '48px Arial Bold', color: '#FBFBAC' });
-        this.input.on('pointerdown', function (/*pointer*/) {
+        
+        this.input.keyboard.on('keyup-ENTER', (/*pointer*/) => {
+            this.scene.start("GameScene");
+        }, this);
+        this.input.on('pointerdown', (/*pointer*/) => {
             this.scene.start("GameScene");
         }, this);
     }

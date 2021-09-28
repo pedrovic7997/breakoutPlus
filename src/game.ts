@@ -6,7 +6,7 @@ import { YouLose } from "./YouLose";
 import { YouWin } from "./YouWin";
 
 export const config: Phaser.Types.Core.GameConfig = {
-    title: "Starfall",
+    title: "Breakout_Plus",
     width: 800,
     height: 600,
     parent: "game",
@@ -14,8 +14,7 @@ export const config: Phaser.Types.Core.GameConfig = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: true,
-            debugShowBody: true
+            debug: false,
         }
     },
     backgroundColor: "#18216D"

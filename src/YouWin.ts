@@ -18,6 +18,9 @@ export class YouWin extends Phaser.Scene {
         var hintText: string = "Click to restart";
         this.hint = this.add.text(300, 400, hintText,
             { font: '24px Arial Bold', color: '#FBFBAC' });
+        this.input.keyboard.on('keyup-ENTER', (/*pointer*/) => {
+            this.scene.start("GameScene");
+        }, this);
         this.input.on('pointerdown', function (/*pointer*/) {
             this.scene.start("WelcomeScene");
         }, this);

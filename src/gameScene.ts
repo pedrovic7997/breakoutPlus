@@ -22,7 +22,7 @@ export class GameScene extends Phaser.Scene {
     }
     preload(): void {
         this.load.image("ball", "assets/image/Shiny_steel_ball.png");
-        this.load.svg("paddle", "assets/image/paddle.svg");
+        this.load.image("paddle", "assets/image/paddle.png");
 
         this.load.audio('hit-paddle', "assets/audio/hit1 - ball & paddle.mp3");
         this.load.audio('hit-brick', "assets/audio/Bonk-AudioTrimmer.com.mp3");
@@ -51,7 +51,7 @@ export class GameScene extends Phaser.Scene {
         this.ball.setMaxVelocity(697, 697);
 
         this.paddle = this.physics.add.image(400, 500, 'paddle')
-          .setCollideWorldBounds(true) // TODO tirar essa colisão, e fazer o paddle aparecer do outro lado
+          .setCollideWorldBounds(true)
           .setImmovable()
           .setScale(0.5);
         this.paddle.body.setMaxVelocityX(1000);
